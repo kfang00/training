@@ -8,6 +8,26 @@
 
 import SwiftUI
 
+struct ListMod:ViewModifier {
+    var amountItem: Int
+    
+    func body(content: Content) -> some View {
+        //pink
+        var color = Color(red: 0.94, green: 0.2, blue: 0.55)
+        
+        if amountItem < 10 {
+            //green
+            color = Color(red: 0.13, green: 0.88, blue: 0.12)
+        }
+        else if amountItem < 100 {
+            color = Color.yellow
+        }
+            
+        return content
+        .listRowBackground(color)
+    }
+}
+
 struct ExpenseItem: Identifiable, Codable {
     let id = UUID()
     let name: String
@@ -55,9 +75,7 @@ struct ContentView: View {
                         Spacer()
                         Text("$\(item.amount)")
                     }
-                    .foregroundColor(Color.white)
-                    .listRowBackground((item.amount < 10) ? Color.green:  Color(red: 255, green: 72, blue: 139))
-//                    .listRowBackground((item.amount < 10) ? Color(red: 72, green: 255, blue: 78) :  Color(red: 255, green: 72, blue: 139))
+                    .modifier(ListMod(amountItem: item.amount))
                 }
                 .onDelete(perform: removeItems)
             
