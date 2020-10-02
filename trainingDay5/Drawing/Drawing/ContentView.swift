@@ -21,6 +21,23 @@ struct Triange: Shape {
     }
 }
 
+struct Arrow: Shape {
+    var arrowWidth: Double = 50
+    
+    func path(in rect: CGRect) -> Path {
+        var path = Path()
+        
+        path.move(to: CGPoint(x: rect.midX, y: rect.minY))
+        path.addLine(to: CGPoint(x: rect.minX, y: rect.midY))
+        path.addLine(to: CGPoint(x: rect.maxX, y: rect.midY))
+        path.addLine(to: CGPoint(x: rect.midX, y: rect.minY))
+        let rect = CGRect(x: rect.midX - CGFloat(arrowWidth / 2), y: rect.midY, width: CGFloat(arrowWidth), height: (rect.maxY - rect.minY) / 2)
+        path.addRect(rect)
+        
+        return path
+    }
+}
+
 struct Arc: InsettableShape {
     var startAngle: Angle
     var endAngle: Angle
@@ -101,6 +118,48 @@ struct Trapezoid: Shape {
    }
 }
 
+struct Checkerboard: Shape {
+    var rows: Int
+    var columns: Int
+    
+    public var animatableData: AnimatablePair<Double, Double> {
+        get {
+           AnimatablePair(Double(rows), Double(columns))
+        }
+
+        set {
+            self.rows = Int(newValue.first)
+            self.columns = Int(newValue.second)
+        }
+    }
+
+
+    func path(in rect: CGRect) -> Path {
+        var path = Path()
+
+        // figure out how big each row/column needs to be
+        let rowSize = rect.height / CGFloat(rows)
+        let columnSize = rect.width / CGFloat(columns)
+
+        // loop over all rows and columns, making alternating squares colored
+        for row in 0..<rows {
+            for column in 0..<columns {
+                if (row + column).isMultiple(of: 2) {
+                    // this square should be colored; add a rectangle here
+                    let startX = columnSize * CGFloat(column)
+                    let startY = rowSize * CGFloat(row)
+
+                    let rect = CGRect(x: startX, y: startY, width: columnSize, height: rowSize)
+                    path.addRect(rect)
+                }
+            }
+        }
+
+        return path
+    }
+}
+
+
 struct ColorCyclingCircle: View {
     var amount = 0.0
     var steps = 100
@@ -130,21 +189,73 @@ struct ColorCyclingCircle: View {
     }
 }
 
+struct ColorCyclingRectangle: View {
+    var amount = 0.0
+    var steps = 100
+    
+    var body: some View {
+        ZStack {
+            ForEach(0..<steps) {value in
+                Rectangle()
+                    .inset(by: CGFloat(value))
+                    .strokeBorder(LinearGradient(gradient: Gradient(colors: [
+                        self.color(for: value, brightness: 1),
+                        self.color(for: value, brightness: 0.5)]), startPoint: .top, endPoint: .bottom), lineWidth: 2)
+                    //.strokeBorder(self.color(for: value, brightness: 1), lineWidth: 2)
+            }
+        }
+        .drawingGroup()
+    }
+    
+    func color(for value: Int, brightness: Double) -> Color {
+        var targetHue = Double(value) / Double(self.steps) + self.amount
+
+        if targetHue > 1 {
+            targetHue -= 1
+        }
+
+        return Color(hue: targetHue, saturation: 1, brightness: brightness)
+    }
+}
+
 struct ContentView: View {
     @State private var petalOffset = -20.0
     @State private var petalWidth = 100.0
     @State private var colorCycle = 0.0
     @State private var amount: CGFloat = 0.0
     @State private var insetAmount: CGFloat = 50
+    @State private var rows = 4
+    @State private var columns = 4
+    @State private var lineThickness: CGFloat = 0.0
+    
     
     var body: some View {
-        Trapezoid(insetAmount: insetAmount)
-            .frame(width: 200, height: 100)
-            .onTapGesture {
-                withAnimation {
-                    self.insetAmount = CGFloat.random(in: 10...90)
-                }
-            }
+        VStack {
+            ColorCyclingRectangle(amount: self.colorCycle)
+                .frame(width: 300, height: 400)
+            Slider(value: $colorCycle)
+        }
+//        VStack {
+//            Arrow(arrowWidth: 50)
+//                .stroke(Color.pink, style: StrokeStyle(lineWidth: lineThickness, lineCap: .round, lineJoin: .round))
+//                .frame(width: 100, height: 100)
+//
+//            Slider(value: $lineThickness, in: 0...20)
+//        }
+//        Checkerboard(rows: rows, columns: columns)
+//        .onTapGesture {
+//            withAnimation(.linear(duration: 3)) {
+//                self.rows = 8
+//                self.columns = 16
+//            }
+//        }
+//        Trapezoid(insetAmount: insetAmount)
+//            .frame(width: 200, height: 100)
+//            .onTapGesture {
+//                withAnimation {
+//                    self.insetAmount = CGFloat.random(in: 10...90)
+//                }
+//            }
 //------------------------------------
 //        VStack {
 //            Image("dog")
