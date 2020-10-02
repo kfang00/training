@@ -33,6 +33,14 @@ class Activity: Identifiable, Codable, ObservableObject {
     let description: String
     @Published var count: String {
         didSet {
+//            do {
+//                if let hold = try self.encode(to: JSONEncoder() as! Encoder) {
+//                    print("success")
+//                }
+//            }
+//            catch {
+//                print("error")
+//            }
             let encoder = JSONEncoder()
 
             if let encoded = try? encoder.encode(count) {
