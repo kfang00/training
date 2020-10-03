@@ -20,7 +20,7 @@ struct DetailView: View {
                     Text("Address: \(user.address)")
                     Text("About: \(user.about)")
                 }
-                .padding(5)
+
                 
                 Text("Friends")
                     .font(.headline)
