@@ -1,8 +1,8 @@
 //
 //  AppDelegate.swift
-//  CoreDataProject
+//  challengeCore
 //
-//  Created by Kayla Fang on 10/2/20.
+//  Created by Kayla Fang on 10/4/20.
 //  Copyright © 2020 Kayla Fang. All rights reserved.
 //
 
@@ -42,7 +42,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
          application to it. This property is optional since there are legitimate
          error conditions that could cause the creation of the store to fail.
         */
-        let container = NSPersistentContainer(name: "CoreDataProject")
+        let container = NSPersistentContainer(name: "challengeCore")
         container.loadPersistentStores(completionHandler: { (storeDescription, error) in
             if let error = error as NSError? {
                 // Replace this implementation with code to handle the error appropriately.

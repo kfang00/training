@@ -1,8 +1,8 @@
 //
 //  SceneDelegate.swift
-//  CoreDataProject
+//  challengeCore
 //
-//  Created by Kayla Fang on 10/2/20.
+//  Created by Kayla Fang on 10/4/20.
 //  Copyright © 2020 Kayla Fang. All rights reserved.
 //
 
