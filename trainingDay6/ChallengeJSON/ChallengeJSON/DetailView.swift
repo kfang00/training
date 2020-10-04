@@ -21,17 +21,19 @@ struct DetailView: View {
                     Text("About: \(user.about)")
                 }
 
-                
-                Text("Friends")
-                    .font(.headline)
-                List {
+                Section {
+                    Text("Friends")
+                        .font(.headline)
+                    
                     ForEach(user.friends) {friend in
-                        NavigationLink (destination: FriendView(friend: friend)) {
-                            Text(friend.name)
-                        }
+                            NavigationLink (destination: FriendView(friend: friend)) {
+                                Text(friend.name)
+                                    .padding()
+                                    .frame(alignment: .leading)
+                                    
+                            }
                     }
                 }
-                
                 
             }
             .navigationBarTitle(Text(user.name))
