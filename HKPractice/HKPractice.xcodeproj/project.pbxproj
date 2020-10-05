@@ -19,6 +19,8 @@
 		8B5E20492529BB8B00DFC61A /* AddItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B5E20482529BB8B00DFC61A /* AddItemView.swift */; };
 		8B5E204B2529BB9A00DFC61A /* CartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B5E204A2529BB9A00DFC61A /* CartView.swift */; };
 		8B5E204D2529CF2D00DFC61A /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B5E204C2529CF2D00DFC61A /* LoginView.swift */; };
+		8B74F24E252A37BA005965AA /* Users.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B74F24D252A37BA005965AA /* Users.swift */; };
+		8B74F250252A4BD1005965AA /* Cart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B74F24F252A4BD1005965AA /* Cart.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,6 +38,8 @@
 		8B5E20482529BB8B00DFC61A /* AddItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddItemView.swift; sourceTree = "<group>"; };
 		8B5E204A2529BB9A00DFC61A /* CartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartView.swift; sourceTree = "<group>"; };
 		8B5E204C2529CF2D00DFC61A /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
+		8B74F24D252A37BA005965AA /* Users.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Users.swift; sourceTree = "<group>"; };
+		8B74F24F252A4BD1005965AA /* Cart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cart.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -69,6 +73,8 @@
 			isa = PBXGroup;
 			children = (
 				8B5E20442529B9B900DFC61A /* Item.swift */,
+				8B74F24D252A37BA005965AA /* Users.swift */,
+				8B74F24F252A4BD1005965AA /* Cart.swift */,
 				8B5E20402529B83200DFC61A /* User.swift */,
 				8B5E202C2529B48E00DFC61A /* AppDelegate.swift */,
 				8B5E202E2529B48E00DFC61A /* SceneDelegate.swift */,
@@ -166,7 +172,9 @@
 			files = (
 				8B5E20452529B9B900DFC61A /* Item.swift in Sources */,
 				8B5E20412529B83200DFC61A /* User.swift in Sources */,
+				8B74F24E252A37BA005965AA /* Users.swift in Sources */,
 				8B5E20492529BB8B00DFC61A /* AddItemView.swift in Sources */,
+				8B74F250252A4BD1005965AA /* Cart.swift in Sources */,
 				8B5E204D2529CF2D00DFC61A /* LoginView.swift in Sources */,
 				8B5E202D2529B48E00DFC61A /* AppDelegate.swift in Sources */,
 				8B5E202F2529B48E00DFC61A /* SceneDelegate.swift in Sources */,

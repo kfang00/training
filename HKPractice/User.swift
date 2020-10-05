@@ -8,16 +8,17 @@
 
 import Foundation
 
-class User: ObservableObject, Codable {
+class User: ObservableObject, Codable, Identifiable {
     enum CodingKeys: CodingKey {
         case username, password, cart
     }
     
+    @Published var id = UUID()
     @Published var username = ""
     @Published var password = ""
-    @Published var cart = [Item]()
+    @Published var cart = Cart()
     
-    init(username: String, password: String, cart: [Item]) {
+    init(username: String, password: String, cart: Cart) {
         self.username = username
         self.password = password
         self.cart = cart
@@ -28,7 +29,7 @@ class User: ObservableObject, Codable {
 
         username = try container.decode(String.self, forKey: .username)
         password = try container.decode(String.self, forKey: .password)
-        cart = try container.decode([Item].self, forKey: .cart)
+        cart = try container.decode(Cart.self, forKey: .cart)
     }
 
     func encode(to encoder: Encoder) throws {

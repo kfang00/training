@@ -9,26 +9,28 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State private var users = [User]()
+    @ObservedObject private var userList = Users()
     //@ObservedObject var user = User(username: "None", password: "None", cart: [Item]())
     @State private var screen = 0
+    @State private var index = 0
     
     
     var body: some View {
         Group {
             if screen == 0 {
-                LoginView()
+                LoginView(screen: $screen, index: self.$index, userList: self.userList)
             }
             else if screen == 1{
-                SignUpView()
+                SignUpView(userList: self.userList, screen: $screen)
             }
             else if screen == 2 {
-                AddItemView()
+                AddItemView(screen: $screen, index: self.$index, userList: self.userList)
             }
             else {
                 CartView()
             }
         }
+        .onAppear(perform: loadData)
     }
     
     func loadData() {
@@ -41,9 +43,9 @@ struct ContentView: View {
 
         URLSession.shared.dataTask(with: request) { data, response, error in
             if let data = data {
-                if let decodedUsers = try? JSONDecoder().decode([User].self, from: data) {
+                if let decodedUsers = try? JSONDecoder().decode(Users.self, from: data) {
                     DispatchQueue.main.async {
-                        self.users = decodedUsers
+                        self.userList.users = decodedUsers.users
                     }
 
                     return

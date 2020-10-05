@@ -12,6 +12,9 @@ struct LoginView: View {
     @State private var username = ""
     @State private var password = ""
     @Binding var screen: Int
+    @Binding var index: Int
+    @ObservedObject var userList: Users
+    @State private var alertShowing = false
     
     var body: some View {
         NavigationView {
@@ -29,17 +32,39 @@ struct LoginView: View {
                 
                 
                 Button("Login") {
-                    self.screen = 3
+                    if !self.isLogicSuccessful() {
+                        self.alertShowing.toggle()
+                    }
+                    else {
+                        self.screen = 2
+                    }
                 }
+                
+//                List(userList.users) { user in
+//                    Text("\(user.username)")
+//                }
+                
                 Spacer()
             }
             .navigationBarTitle("HKPractice")
             .navigationBarItems(trailing: Button("Sign Up") {
-                self.screen = 2
+                self.screen = 1
             })
             .padding(15)
-                //.onAppear(perform: loadData)
+                .alert(isPresented: $alertShowing) {
+                    Alert(title: Text("Try Again"), message: Text("Invalid Username or Password"), dismissButton: .default(Text("Ok")))
+            }
         }
+    }
+    
+    func isLogicSuccessful() -> Bool {
+        if let match = self.userList.users.firstIndex(where: {$0.username == self.username}) {
+            if self.userList.users[match].password == self.password {
+                self.index = match
+                return true
+            }
+        }
+        return false
     }
 }
 

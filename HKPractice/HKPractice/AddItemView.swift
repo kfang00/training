@@ -11,6 +11,10 @@ import SwiftUI
 struct AddItemView: View {
     @State private var name = ""
     @State private var quantity = 0
+    @Binding var screen: Int
+    @Binding var index: Int
+    @ObservedObject var userList: Users
+    
     var body: some View {
         NavigationView {
             Form {
@@ -21,6 +25,17 @@ struct AddItemView: View {
                     TextField("Name", text: $name)
                     
                     Stepper("Quantity: \(self.quantity)", value: $quantity, in: 1...30)
+                        .padding(.bottom, 20)
+                    
+                    Button("Add") {
+                        //self.screen = 3
+                        let item = Item(name: self.name, quantity: self.quantity)
+                        self.userList.users[self.index].cart.items.append(item)
+                    }
+                    
+                    ForEach(userList.users[self.index].cart.items, id:\.name) { item in
+                        Text("\(item.name)")
+                    }
                     Spacer()
                 }
             }
@@ -29,8 +44,8 @@ struct AddItemView: View {
     }
 }
 
-struct AddItemView_Previews: PreviewProvider {
-    static var previews: some View {
-        AddItemView()
-    }
-}
+//struct AddItemView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        AddItemView()
+//    }
+//}

@@ -11,7 +11,8 @@ import SwiftUI
 struct SignUpView: View {
     @State private var username = ""
     @State private var password = ""
-    //@State var users: [User]
+    @ObservedObject var userList: Users
+    @Binding var screen : Int
     
     var body: some View {
        NavigationView {
@@ -27,27 +28,60 @@ struct SignUpView: View {
                     .font(.headline)
                 TextField("Password", text: $password)
                 
-                Button(action: {
-                    let user = User(username: self.username, password: self.password, cart: [Item]())
-                    //self.users.append(user)
-                    print("hey")
-                }) {
-                    NavigationLink(destination: AddItemView()) {
-                        Text("Sign Up")
-                    }
-                }
-
+//                NavigationLink(destination: LoginView(screen: self.$screen, userList: self.userList)) {
+//                    Text("sing uaodf")
+//                }
                 
+                Button("Sign Up") {
+                    self.screen = 0
+                    let user = User(username: self.username, password: self.password, cart: Cart())
+                    self.userList.users.append(user)
+                    self.postData()
+                }
+//testing whether the userlist updated
+//                List(userList.users) { user in
+//                    Text("\(user.username)")
+//                }
                 Spacer()
             }
             .navigationBarTitle("HKPractice")
             .padding(15)
         }
     }
-}
+    
+    func postData() {
+        guard let encoded = try? JSONEncoder().encode(userList) else {
+            print("Fail to encode order")
+            return
+        }
+        guard let url = URL(string: "https://hkp-ios-demo-api.herokuapp.com/") else {
+            print("Invalid URL")
+            return
+        }
+        var request = URLRequest(url: url)
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.httpMethod = "POST"
+        request.httpBody = encoded
 
-struct SignUpView_Previews: PreviewProvider {
-    static var previews: some View {
-        SignUpView()
+        URLSession.shared.dataTask(with: request) { data, response, error in
+            if let data = data {
+                if let decodedUsers = try? JSONDecoder().decode(Users.self, from: data) {
+                    DispatchQueue.main.async {
+                        self.userList.users = decodedUsers.users
+                    }
+
+                    return
+                }
+            }
+            
+            print("Invalid response from server")
+
+        }.resume()
     }
 }
+
+//struct SignUpView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        SignUpView()
+//    }
+//}
