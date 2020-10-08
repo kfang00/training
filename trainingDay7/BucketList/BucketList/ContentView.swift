@@ -46,18 +46,20 @@ struct ContentView: View {
                             self.showingEditScreen = true
                         }) {
                             Image(systemName: "plus")
+                            .padding()
+                            .background(Color.black.opacity(0.75))
+                            .foregroundColor(.white)
+                            .font(.title)
+                            .clipShape(Circle())
+                                .padding([.trailing, .bottom])
                         }
-                        .padding()
-                        .background(Color.black.opacity(0.75))
-                        .foregroundColor(.white)
-                        .font(.title)
-                        .clipShape(Circle())
-                        .padding(.trailing)
+                        
                     }
                 }
             } else {
                 Button("Unlock Places") {
-                    self.authenticate()
+                    //self.authenticate()
+                    self.isUnlocked = true
                 }
                 .padding()
                 .background(Color.blue)
