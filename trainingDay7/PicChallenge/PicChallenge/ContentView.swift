@@ -28,7 +28,7 @@ struct ContentView: View {
             if screen == 0 {
                 NavigationView {
                     VStack {
-                        List(pictures.items) {pic in
+                        List(pictures.items.sorted()) {pic in
                             NavigationLink(destination: DetailView(image: pic)) {
                                 HStack {
                                     pic.image

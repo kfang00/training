@@ -9,8 +9,12 @@
 import Foundation
 import SwiftUI
 
-struct Picture: Identifiable {
+struct Picture: Identifiable, Comparable {
     let id = UUID()
     let image: Image
     let name: String
+    
+    static func < (lhs: Picture, rhs: Picture) -> Bool {
+        lhs.name < rhs.name
+    }
 }
