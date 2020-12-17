@@ -1,2 +1,2 @@
 # training
-HKP Solutions Training
+HKP Solutions Training - iOS frontend
